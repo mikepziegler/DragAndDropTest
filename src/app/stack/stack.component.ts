@@ -5,22 +5,22 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
   selector: 'app-stack',
 
   template: `
-    <div class="mx-auto container" cdkDropList (cdkDropListDropped)="onDrop($event)">
-      <div class="stack-item" *ngFor="let item of stackItems; let i = index" cdkDrag>
+    <div class="flex flex-col mx-auto container mt-10" cdkDropList (cdkDropListDropped)="onDrop($event)">
+      <div class="flex items-center bg-slate-200 stack-item" *ngFor="let item of stackItems; let i = index" cdkDrag>
         {{ item }}
+        <button (click)="addItem(i)">Add Item</button>
       </div>
     </div>
   `,
   styles: [`
-    .stack {
-      display: flex;
-      flex-direction: column;
-    }
-
     .stack-item {
-      padding: 10px;
-      margin-bottom: 10px;
       background-color: #eee;
+    }
+    .stack-item-content {
+      flex: 1;
+    }
+    .add-item-button {
+      margin-left: 10px;
     }
   `]
 })
@@ -30,5 +30,9 @@ export class StackComponent {
 
   onDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.stackItems, event.previousIndex, event.currentIndex);
+  }
+
+  addItem(index: number) {
+    this.stackItems.splice(index + 1, 0, 'New Item');
   }
 }
